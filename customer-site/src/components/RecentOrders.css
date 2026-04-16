@@ -1,0 +1,95 @@
+/* .panel and .ph2 are inherited gracefully if combined in the same app. 
+   We include them so the component stands alone as requested. */
+.panel {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--rl);
+  overflow: hidden;
+  margin-top: 24px;
+}
+
+.ph2 {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ph2-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt);
+}
+
+.ph2-link {
+  font-size: 11.5px;
+  color: var(--accent-light);
+  cursor: pointer;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.or {
+  padding: 11px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s ease;
+}
+
+.or:last-child {
+  border-bottom: none;
+}
+
+.or:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.ot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.oid {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--txt);
+}
+
+.otot {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--txt);
+}
+
+.ob {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.odesc {
+  font-size: 11.5px;
+  color: var(--txt2);
+}
+
+.odt {
+  font-size: 10.5px;
+  color: var(--txt3);
+  margin-top: 2px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.badge-shipped { background-color: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.badge-processing { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.badge-delivered { background-color: rgba(34, 197, 94, 0.15); color: #4ade80; }

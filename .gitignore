@@ -1,0 +1,29 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pkl
+
+# Environment & Secrets
+.env
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+.cursorrules
+
+# Data
+data/*.pdf
+
+# Temporary / Legacy artifacts
+temp_make/
+temp_make.zip
+temp_make_summary.txt
+Website_Experience_Transcript.md
+parse_make.py
+parse_to_md.py
+cleanup.ps1

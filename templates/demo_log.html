@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solstice Agentic Mesh | Demo Log</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #mesh-panel {
+            width: 45%;
+            border-right: 1px solid #334155;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #log-panel {
+            width: 55%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-container {
+            flex-grow: 1;
+            background: #020617;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Cascadia Code', 'Courier New', monospace;
+            font-size: 13px;
+            overflow-y: auto;
+            color: #94a3b8;
+            border: 1px solid #1e293b;
+        }
+
+        .node {
+            fill: #334155;
+            stroke: #475569;
+            stroke-width: 2;
+            transition: all 0.3s;
+        }
+
+        .node.active {
+            fill: #f59e0b;
+            stroke: #fbbf24;
+            filter: drop-shadow(0 0 8px #fbbf24);
+        }
+
+        .node.complete {
+            fill: #10b981;
+            stroke: #34d399;
+        }
+
+        .node.error {
+            fill: #ef4444;
+            stroke: #f87171;
+        }
+
+        text {
+            fill: white;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        .log-line {
+            margin-bottom: 4px;
+            border-left: 3px solid transparent;
+            padding-left: 8px;
+        }
+
+        .llm_call {
+            border-color: #3b82f6;
+            color: #60a5fa;
+        }
+
+        .agent_start {
+            border-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        .agent_complete {
+            border-color: #10b981;
+            color: #34d399;
+        }
+
+        .salesforce_query {
+            border-color: #a855f7;
+            color: #c084fc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mesh-panel">
+        <h2>Agent Mesh Map</h2>
+        <svg width="400" height="500" id="mesh-svg">
+            <!-- Supervisor -->
+            <circle id="node-supervisor" class="node" cx="200" cy="80" r="35" />
+            <text x="200" y="85" text-anchor="middle">Supervisor</text>
+
+            <!-- Order Status -->
+            <line x1="200" y1="115" x2="100" y2="200" stroke="#334155" stroke-width="2" />
+            <circle id="node-order_status" class="node" cx="100" cy="200" r="35" />
+            <text x="100" y="205" text-anchor="middle">Order Status</text>
+
+            <!-- Product Spec -->
+            <line x1="200" y1="115" x2="300" y2="200" stroke="#334155" stroke-width="2" />
+            <circle id="node-product_spec" class="node" cx="300" cy="200" r="35" />
+            <text x="300" y="205" text-anchor="middle">Product RAG</text>
+        </svg>
+    </div>
+    <div id="log-panel">
+        <h2>Real-time Trace</h2>
+        <div id="log-container" class="log-container"></div>
+    </div>
+
+    <script>
+        const logContainer = document.getElementById('log-container');
+        const es = new EventSource('/events');
+
+        es.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+
+            // Update Mesh Map
+            const node = document.getElementById(`node-${data.agent}`);
+            if (node) {
+                if (data.type === 'agent_start') node.setAttribute('class', 'node active');
+                if (data.type === 'agent_complete') node.setAttribute('class', 'node complete');
+                if (data.type === 'agent_error') node.setAttribute('class', 'node error');
+            }
+
+            if (data.type === 'run_reset') {
+                document.querySelectorAll('.node').forEach(n => n.setAttribute('class', 'node'));
+                logContainer.innerHTML = '';
+            }
+
+            // Append Log
+            const line = document.createElement('div');
+            line.className = `log-line ${data.type}`;
+            const time = new Date(data.timestamp * 1000).toLocaleTimeString();
+            line.innerHTML = `[${time}] [${data.agent.toUpperCase()}] ${data.type.toUpperCase()} - ${JSON.stringify(data.payload)}`;
+            logContainer.appendChild(line);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        };
+    </script>
+
+
+</body>
+
+</html>

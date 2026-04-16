@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+:root {
+  /* BACKGROUNDS */
+  --bg-page:       #111318;
+  --bg-sidebar:    #16191f;
+  --bg-card:       #1c2030;
+  --bg-card-hover: #232840;
+  --bg-nav:        #13151b;
+  --bg-banner:     #0d0f13;
+
+  /* ACCENT */
+  --accent:        #7b5cf6;
+  --accent-light:  #9d7ef8;
+  --accent-dim:    #2d2060;
+
+  /* SEMANTIC */
+  --green:         #22c55e;
+  --green-dim:     rgba(20, 83, 45, 0.7);
+  --amber:         #f59e0b;
+  --amber-dim:     rgba(69, 26, 3, 0.8);
+  --blue:          #3b82f6;
+  --blue-dim:      rgba(30, 58, 95, 0.7);
+  --red:           #ef4444;
+  --red-dim:       rgba(69, 10, 10, 0.7);
+
+  /* TEXT */
+  --txt:           #f0f0f5;
+  --txt2:          #9399b2;
+  --txt3:          #555a72;
+
+  /* BORDERS */
+  --border:        #252a3a;
+  --border2:       #3d4260;
+
+  /* SHAPE */
+  --r:   6px;
+  --rm:  10px;
+  --rl:  14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--txt);
+  font-size: 13px; /* 12-13px body */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

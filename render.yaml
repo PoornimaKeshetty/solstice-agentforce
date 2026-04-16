@@ -1,0 +1,55 @@
+services:
+  # Backend API Service
+  - type: web
+    name: solstice-api
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: SF_DOMAIN
+        value: login
+      # Placeholders for secrets you must add in the Render Dashboard
+      - key: SF_USERNAME
+        sync: false
+      - key: SF_PASSWORD
+        sync: false
+      - key: SF_SECURITY_TOKEN
+        sync: false
+      - key: SF_CLIENT_ID
+        sync: false
+      - key: SF_CLIENT_SECRET
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: MODEL
+        value: nvidia/nemotron-3-super-120b-a12b:free
+
+  # Customer Site Frontend
+  - type: web
+    name: solstice-customer-site
+    runtime: static
+    buildCommand: "cd customer-site && npm install && npm run build"
+    staticPublishPath: "./customer-site/dist"
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: solstice-api
+          envVarKey: RENDER_EXTERNAL_URL
+
+  # Portal Widget Frontend
+  - type: web
+    name: solstice-portal-widget
+    runtime: static
+    buildCommand: "cd portal-widget && npm install && npm run build"
+    staticPublishPath: "./portal-widget/dist"
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: solstice-api
+          envVarKey: RENDER_EXTERNAL_URL
