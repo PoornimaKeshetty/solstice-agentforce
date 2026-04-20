@@ -22,7 +22,7 @@ class BaseAgent:
 
     async def call_llm(self, system_prompt, user_message):
         """Helper to call OpenRouter via the OpenAI client."""
-        model = os.getenv('MODEL', 'google/gemini-flash-1.5')
+        model = os.getenv('MODEL', 'nvidia/nemotron-3-super-120b-a12b:free')
         response = self.client.chat.completions.create(
             model=model,
             messages=[
