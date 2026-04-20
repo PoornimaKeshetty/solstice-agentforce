@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from events import event_queue, reset_run_id, emit_event
 
 # Load environment variables (API keys, etc.)
-load_dotenv()
+load_dotenv(override=True)
 
 app = FastAPI(title="Solstice Agentic Mesh")
 

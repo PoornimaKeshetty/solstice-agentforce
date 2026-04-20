@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
+            background: #0a111f;
             color: #f8fafc;
             margin: 0;
             display: flex;
@@ -18,16 +18,23 @@
         }
 
         #mesh-panel {
-            width: 45%;
-            border-right: 1px solid #334155;
+            width: 50%;
+            border-right: 1px solid #1e293b;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
+        #mesh-panel h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
         #log-panel {
-            width: 55%;
+            width: 50%;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -46,32 +53,31 @@
         }
 
         .node {
-            fill: #334155;
-            stroke: #475569;
-            stroke-width: 2;
+            fill: #d5ebd6;
             transition: all 0.3s;
+            filter: drop-shadow(0 0 6px rgba(213, 235, 214, 0.4));
         }
 
         .node.active {
             fill: #f59e0b;
-            stroke: #fbbf24;
             filter: drop-shadow(0 0 8px #fbbf24);
         }
 
         .node.complete {
             fill: #10b981;
-            stroke: #34d399;
+            filter: drop-shadow(0 0 8px #34d399);
         }
 
         .node.error {
             fill: #ef4444;
-            stroke: #f87171;
+            filter: drop-shadow(0 0 8px #f87171);
         }
 
         text {
             fill: white;
             font-size: 12px;
-            font-weight: bold;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-weight: 600;
             pointer-events: none;
         }
 
@@ -106,20 +112,105 @@
 <body>
     <div id="mesh-panel">
         <h2>Agent Mesh Map</h2>
-        <svg width="400" height="500" id="mesh-svg">
-            <!-- Supervisor -->
-            <circle id="node-supervisor" class="node" cx="200" cy="80" r="35" />
-            <text x="200" y="85" text-anchor="middle">Supervisor</text>
+        <svg width="100%" height="100%" viewBox="0 20 600 780" id="mesh-svg">
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="32" refY="5" markerWidth="6" markerHeight="6"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4B607E" />
+                </marker>
+                <marker id="arrow-empty" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6"
+                    orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#4B607E" />
+                </marker>
+                <style>
+                    .edge {
+                        stroke: #4B607E;
+                        stroke-width: 1.5;
+                    }
 
-            <!-- Order Status -->
-            <line x1="200" y1="115" x2="100" y2="200" stroke="#334155" stroke-width="2" />
-            <circle id="node-order_status" class="node" cx="100" cy="200" r="35" />
-            <text x="100" y="205" text-anchor="middle">Order Status</text>
+                    .edge-dashed {
+                        stroke: #4B607E;
+                        stroke-width: 1.5;
+                        stroke-dasharray: 4;
+                    }
+                </style>
+            </defs>
 
-            <!-- Product Spec -->
-            <line x1="200" y1="115" x2="300" y2="200" stroke="#334155" stroke-width="2" />
-            <circle id="node-product_spec" class="node" cx="300" cy="200" r="35" />
-            <text x="300" y="205" text-anchor="middle">Product RAG</text>
+            <!-- Dashed line Top row -->
+            <line x1="100" y1="80" x2="500" y2="80" class="edge-dashed" />
+
+            <!-- Edges from Supervisor -->
+            <line x1="300" y1="80" x2="100" y2="180" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="80" x2="200" y2="180" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="80" x2="300" y2="180" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="80" x2="400" y2="180" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="80" x2="500" y2="180" class="edge" marker-end="url(#arrow)" />
+
+            <!-- Edges Row 2 down -->
+            <line x1="100" y1="180" x2="100" y2="280" class="edge" marker-end="url(#arrow)" />
+            <line x1="200" y1="180" x2="200" y2="280" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="180" x2="300" y2="280" class="edge" marker-end="url(#arrow)" />
+
+            <!-- Email Coord empty arrow -->
+            <line x1="400" y1="180" x2="400" y2="250" class="edge" marker-end="url(#arrow-empty)" />
+
+            <!-- Edges vertical chain -->
+            <line x1="300" y1="280" x2="300" y2="380" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="380" x2="300" y2="480" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="480" x2="300" y2="580" class="edge" marker-end="url(#arrow)" />
+            <line x1="300" y1="580" x2="300" y2="680" class="edge" marker-end="url(#arrow)" />
+
+            <!-- Nodes Top row -->
+            <circle id="node-classify" class="node" cx="100" cy="80" r="22" />
+            <text x="100" y="125" text-anchor="middle">Classify</text>
+
+            <circle id="node-supervisor" class="node" cx="300" cy="80" r="28" />
+            <text x="300" y="130" text-anchor="middle">Supervisor</text>
+
+            <circle id="node-response" class="node" cx="500" cy="80" r="22" />
+            <text x="500" y="125" text-anchor="middle">Response</text>
+
+            <!-- Nodes Row 2 -->
+            <circle id="node-retrieval" class="node" cx="100" cy="180" r="22" />
+            <text x="100" y="225" text-anchor="middle">Retrieval</text>
+
+            <circle id="node-atp_coord" class="node" cx="200" cy="180" r="22" />
+            <text x="200" y="225" text-anchor="middle">ATP Coord</text>
+
+            <circle id="node-exp_coord" class="node" cx="300" cy="180" r="22" />
+            <text x="300" y="225" text-anchor="middle">Exp Coord</text>
+
+            <circle id="node-email_coord" class="node" cx="400" cy="180" r="22" />
+            <text x="400" y="225" text-anchor="middle">Email Coord</text>
+
+            <circle id="node-order_status" class="node" cx="500" cy="180" r="22" />
+            <text x="500" y="225" text-anchor="middle">Order Status</text>
+
+            <!-- Nodes Row 3 -->
+            <circle id="node-product_spec" class="node" cx="100" cy="280" r="22" />
+            <text x="100" y="325" text-anchor="middle">Product Spec</text>
+
+            <circle id="node-exec_atp" class="node" cx="200" cy="280" r="22" />
+            <text x="200" y="325" text-anchor="middle">Exec ATP</text>
+
+            <circle id="node-validation" class="node" cx="300" cy="280" r="22" />
+            <text x="300" y="325" text-anchor="middle">Validation</text>
+
+            <!-- Nodes Row 4 -->
+            <circle id="node-inventory" class="node" cx="300" cy="380" r="22" />
+            <text x="300" y="425" text-anchor="middle">Inventory</text>
+
+            <!-- Nodes Row 5 -->
+            <circle id="node-exec_exp" class="node" cx="300" cy="480" r="22" />
+            <text x="300" y="525" text-anchor="middle">Exec Exp</text>
+
+            <!-- Nodes Row 6 -->
+            <circle id="node-comm" class="node" cx="300" cy="580" r="22" />
+            <text x="300" y="625" text-anchor="middle">Comm</text>
+
+            <!-- Nodes Row 7 -->
+            <circle id="node-audit" class="node" cx="300" cy="680" r="22" />
+            <text x="300" y="725" text-anchor="middle">Audit</text>
         </svg>
     </div>
     <div id="log-panel">
@@ -144,7 +235,10 @@
 
             if (data.type === 'run_reset') {
                 document.querySelectorAll('.node').forEach(n => n.setAttribute('class', 'node'));
-                logContainer.innerHTML = '';
+                const separator = document.createElement('div');
+                separator.style.borderTop = '1px dashed #334155';
+                separator.style.margin = '15px 0';
+                logContainer.appendChild(separator);
             }
 
             // Append Log

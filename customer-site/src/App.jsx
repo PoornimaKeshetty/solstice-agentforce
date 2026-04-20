@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-
+import Chatbot from './components/Chatbot';
 function AnnouncementBar() {
   return (
     <div className="banner">
@@ -57,7 +57,7 @@ function Sidebar({ activeItem, setActiveItem }) {
     <div className="sidebar">
       <div className="sl">MAIN MENU</div>
       {navItems.map((item) => (
-        <div 
+        <div
           key={item.label}
           className={`si ${activeItem === item.label ? 'active' : ''}`}
           onClick={() => setActiveItem(item.label)}
@@ -82,6 +82,7 @@ function PageHeader() {
           Welcome back, John. You have 3 pending orders and 1 open case.
           View your materials portfolio and recent activity below.
         </p>
+
       </div>
       <div className="page-header-right">
         <button className="page-cta">
@@ -640,6 +641,7 @@ export default function App() {
           )}
         </div>
       </div>
+      <Chatbot />
     </div>
   );
 }

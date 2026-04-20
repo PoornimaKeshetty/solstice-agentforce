@@ -3,7 +3,7 @@ from openai import OpenAI
 from events import emit_event
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 class BaseAgent:
     def __init__(self, session_id, surface, account_id):
