@@ -12,6 +12,7 @@ from events import event_queue, reset_run_id, emit_event
 
 # Load environment variables (API keys, etc.)
 load_dotenv(override=True)
+
 # ── Startup Diagnostics (visible in Render Logs) ──
 _api_key = os.getenv('OPENROUTER_API_KEY')
 _base_url = os.getenv('OPENROUTER_BASE_URL')
@@ -19,6 +20,7 @@ _model = os.getenv('MODEL')
 print(f"[STARTUP] OPENROUTER_API_KEY loaded: {bool(_api_key)} (length: {len(_api_key) if _api_key else 0})")
 print(f"[STARTUP] OPENROUTER_BASE_URL: {_base_url}")
 print(f"[STARTUP] MODEL: {_model}")
+
 app = FastAPI(title="Solstice Agentic Mesh")
 
 # Enable CORS to allow the React frontend to communicate with this API
